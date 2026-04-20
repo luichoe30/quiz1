@@ -1,0 +1,284 @@
+
+<h2 class="sr-only">Quiz completo de Deontología del Auditor Informático — elaborado por docente con base en los PDFs del curso UTP</h2>
+<style>
+  * { box-sizing: border-box; }
+  .qw { padding: 1rem 0; font-family: var(--font-sans); }
+  .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 8px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: var(--border-radius-md); background: #EEEDFE; color: #3C3489; }
+  .badge.s1 { background: #E6F1FB; color: #0C447C; }
+  .badge.s2 { background: #EAF3DE; color: #27500A; }
+  .badge.s3 { background: #FAEEDA; color: #633806; }
+  .badge.s4 { background: #FBEAF0; color: #72243E; }
+  .badge.s5 { background: #EEEDFE; color: #3C3489; }
+  .badge.lect { background: #F1EFE8; color: #444441; }
+  .prog-wrap { margin-bottom: 1.25rem; }
+  .prog-bar { height: 4px; background: var(--color-background-secondary); border-radius: 2px; }
+  .prog-fill { height: 4px; border-radius: 2px; background: #534AB7; transition: width 0.4s; }
+  .prog-label { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; }
+  .q-text { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 1.25rem; line-height: 1.55; }
+  .opt { display: block; width: 100%; text-align: left; padding: 11px 15px; margin-bottom: 9px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); font-size: 13.5px; cursor: pointer; transition: background 0.12s, border-color 0.12s; line-height: 1.45; }
+  .opt:hover:not(:disabled) { background: var(--color-background-secondary); border-color: var(--color-border-primary); }
+  .opt.correct { background: #EAF3DE; border-color: #639922; color: #27500A; font-weight: 500; }
+  .opt.wrong { background: #FCEBEB; border-color: #A32D2D; color: #501313; }
+  .opt.show-correct { background: #EAF3DE; border-color: #639922; color: #27500A; }
+  .feedback { font-size: 13px; color: var(--color-text-secondary); margin: 0.75rem 0 1rem; padding: 10px 14px; border-radius: var(--border-radius-md); background: var(--color-background-secondary); display: none; line-height: 1.55; border-left: 3px solid #534AB7; }
+  .nav-row { display: flex; gap: 10px; margin-top: 0.5rem; flex-wrap: wrap; align-items: center; }
+  .btn { padding: 9px 20px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: transparent; color: var(--color-text-primary); font-size: 13px; cursor: pointer; }
+  .btn:hover { background: var(--color-background-secondary); }
+  .btn.primary { border-color: #534AB7; color: #534AB7; }
+  .btn.primary:hover { background: #EEEDFE; }
+  .score-wrap { text-align: center; padding: 2rem 1rem; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); background: var(--color-background-primary); }
+  .score-big { font-size: 52px; font-weight: 500; color: #534AB7; line-height: 1; }
+  .score-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 6px; }
+  .breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 1.5rem 0; }
+  .bk-card { padding: 10px 12px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); font-size: 12px; }
+  .bk-card .bk-title { color: var(--color-text-secondary); margin-bottom: 4px; }
+  .bk-card .bk-val { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
+  .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .filter-btn { padding: 5px 12px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: transparent; color: var(--color-text-secondary); font-size: 12px; cursor: pointer; }
+  .filter-btn.active { background: #EEEDFE; border-color: #534AB7; color: #3C3489; }
+  .setup-card { padding: 1.5rem; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); background: var(--color-background-primary); }
+  .setup-card h3 { font-size: 16px; font-weight: 500; margin: 0 0 0.5rem; }
+  .setup-card p { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 1.25rem; line-height: 1.5; }
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.25rem; }
+  .stat-item { text-align: center; padding: 10px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); }
+  .stat-num { font-size: 22px; font-weight: 500; color: #534AB7; }
+  .stat-lbl { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+  .review-item { padding: 12px 14px; margin-bottom: 10px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); font-size: 13px; }
+  .review-item.ok { border-left: 3px solid #639922; }
+  .review-item.fail { border-left: 3px solid #A32D2D; }
+  .review-q { font-weight: 500; color: var(--color-text-primary); margin-bottom: 5px; }
+  .review-ans { color: var(--color-text-secondary); }
+</style>
+
+<div class="qw" id="app"></div>
+
+<script>
+const ALL_QUESTIONS = [
+  {s:"s1",t:"Sesión 1",q:"Según Lawrence B. Sawyer (1985), ¿qué evalúa principalmente una auditoría?",opts:["A. La rentabilidad financiera de la empresa","B. Si se siguen políticas aceptables, normas establecidas y se utilizan recursos eficientemente","C. Solo el cumplimiento de normativas legales","D. La satisfacción de los empleados con los procesos internos"],c:1,exp:"Sawyer define la auditoría como la evaluación sistemática de operaciones y controles para determinar si se siguen políticas aceptables, se cumplen normas, se usan eficientemente los recursos y se alcanzan los objetivos."},
+  {s:"s1",t:"Sesión 1",q:"¿Cuál es la diferencia fundamental entre una auditoría de Sistemas de Información y una auditoría financiera?",opts:["A. La auditoría financiera es más costosa","B. La auditoría de SI evalúa el diseño del sistema de control interno y su eficacia; la financiera evalúa prácticas contables","C. Solo la auditoría financiera emite un informe final","D. La auditoría de SI no requiere evidencias objetivas"],c:1,exp:"La auditoría financiera evalúa si la organización cumple las prácticas contables habituales, mientras que la auditoría de SI evalúa el diseño del sistema de control interno, la eficacia, protocolos de seguridad y procesos de desarrollo."},
+  {s:"s1",t:"Sesión 1",q:"Según Ron Weber (1988), ¿cuál es el propósito central de la auditoría informática?",opts:["A. Recoger, agrupar y evaluar evidencias para determinar si un sistema informático salvaguarda los activos","B. Revisar únicamente los estados financieros","C. Supervisar al personal del área de TI","D. Reducir los costos operativos de tecnología"],c:0,exp:"Ron Weber define la auditoría informática como el proceso de recoger, agrupar y evaluar evidencias para determinar si un sistema informático salvaguarda los activos de la organización."},
+  {s:"s1",t:"Sesión 1",q:"¿Cuál de los siguientes NO es una característica de la auditoría informática según los materiales del curso?",opts:["A. Objetiva","B. Sistemática","C. Especulativa","D. Independiente"],c:2,exp:"Las características de la auditoría informática son: objetiva, sistemática, profesional, independiente, integral y periódica. La especulación no es una característica, ya que la auditoría se basa en evidencias verificables."},
+  {s:"s1",t:"Sesión 1",q:"¿Qué es el Control Interno Informático (CI)?",opts:["A. El conjunto de medidas que garantiza el alineamiento de las TIC con el negocio en el día a día","B. Un tipo de auditoría externa especializada","C. El informe final de la auditoría informática","D. Un estándar internacional de auditoría"],c:0,exp:"El Control Interno Informático es el conjunto de medidas (controles) que la organización implementa para asegurar en el día a día el adecuado alineamiento de las TIC con el negocio y la eficacia y eficiencia."},
+  {s:"s1",t:"Sesión 1",q:"¿Cuál es la principal diferencia entre el Control Interno Informático y la Auditoría Informática?",opts:["A. El CI analiza controles en el día a día e informa al Depto. de Informática; la AI analiza un momento determinado e informa a la Dirección General","B. Son exactamente lo mismo, solo cambia el nombre","C. La AI solo cubre aspectos financieros","D. El CI es realizado únicamente por personal externo"],c:0,exp:"El CI analiza controles en el día a día, informa al Departamento de Informática y su alcance es solo ese departamento. La AI analiza un momento informático determinado, informa a la Dirección General y tiene cobertura sobre todos los componentes de los SI."},
+  {s:"s1",t:"Sesión 1",q:"¿Cuáles son los objetivos de la Auditoría de Sistemas según la Sesión 1?",opts:["A. Evaluar controles internos, identificar riesgos, recomendar mejoras, garantizar integridad de datos y cumplimiento normativo","B. Solo verificar el hardware y software","C. Emitir estados financieros y reducir costos","D. Supervisar al personal técnico y gestionar proyectos de TI"],c:0,exp:"Los cinco objetivos son: (1) Evaluar controles internos, (2) Identificar riesgos y vulnerabilidades, (3) Recomendar mejoras, (4) Garantizar la integridad y confiabilidad de los datos, y (5) Cumplimiento normativo y legal."},
+  {s:"s1",t:"Sesión 1",q:"¿Cuál de los siguientes es un desafío actual de la Auditoría de Sistemas?",opts:["A. La escasez de papel para informes físicos","B. La evaluación de algoritmos de IA y la auditoría en la nube","C. El exceso de auditores disponibles en el mercado","D. La reducción del uso de tecnología en las empresas"],c:1,exp:"Los desafíos actuales incluyen: ciberseguridad, evolución tecnológica, Big Data y Analytics, auditoría en la nube y evaluación de algoritmos de IA, reflejando la complejidad del entorno digital actual."},
+  {s:"s1",t:"Sesión 1",q:"Según los materiales, el perfil del Auditor de Sistemas incluye pensamiento crítico, conocimiento en auditoría, conocimiento de TI e independencia de criterio. ¿Cuál otro aspecto se menciona explícitamente?",opts:["A. Habilidades de programación avanzada","B. Ética y responsabilidad profesional","C. Conocimientos en finanzas corporativas","D. Experiencia en marketing digital"],c:1,exp:"El perfil del auditor incluye: pensamiento crítico, conocimiento en auditoría, conocimiento multidisciplinario, experiencia en auditoría de sistemas, conocimiento de TI, independencia de criterio, responsabilidad profesional y ética."},
+  {s:"s1",t:"Sesión 1",q:"¿Qué son los activos de Sistemas de Información según la ISO?",opts:["A. Únicamente el hardware de la organización","B. Todo aquello que una entidad considera valioso por contener, procesar o generar información necesaria para el negocio","C. Los estados financieros auditados","D. Los empleados del departamento de TI"],c:1,exp:"Según la ISO, un activo de SI es todo aquello que una entidad considera valioso por contener, procesar o generar información necesaria para el negocio. Incluye hardware, software, datos, personal, instalaciones, etc."},
+  {s:"s2",t:"Sesión 2",q:"¿Qué combinación de habilidades caracteriza al auditor de Sistemas de Información?",opts:["A. Habilidades contables y de marketing","B. Habilidades analíticas de un auditor combinadas con experiencia tecnológica de un profesional de TI","C. Habilidades en programación y diseño gráfico","D. Experiencia en gestión de recursos humanos y logística"],c:1,exp:"Un auditor de SI combina las habilidades analíticas de un auditor con la experiencia tecnológica de un profesional de TI o tecnología de la información."},
+  {s:"s2",t:"Sesión 2",q:"Para garantizar la imparcialidad, ¿qué debe evitar el auditor de sistemas?",opts:["A. Presentar informes por escrito","B. Cualquier vínculo con intereses de marcas, productos o equipos similares a los de su cliente","C. Comunicarse con el auditado durante el proceso","D. Utilizar herramientas de auditoría digitales"],c:1,exp:"Para garantizar la imparcialidad y el beneficio del auditado, el auditor debe evitar cualquier vínculo con intereses de marcas, productos o equipos similares a los de su cliente."},
+  {s:"s2",t:"Sesión 2",q:"¿Cuáles son las cualidades del auditor según la Sesión 2?",opts:["A. Creatividad artística, liderazgo carismático y ventas","B. Integridad, imparcialidad, objetividad, conocimiento técnico, comunicación efectiva, confidencialidad y adaptabilidad","C. Rapidez, bajo costo y disponibilidad inmediata","D. Especialización exclusiva en seguridad informática"],c:1,exp:"Las cualidades del auditor son: Integridad, Imparcialidad, Objetividad (1), Conocimiento Técnico (2), Comunicación Efectiva (3), Confidencialidad (4) y Adaptabilidad (5)."},
+  {s:"s2",t:"Sesión 2",q:"La Auditoría Integral se define como:",opts:["A. La revisión de registros contables de una empresa","B. Una evaluación amplia que un equipo multidisciplinario realiza sobre todas las actividades y operaciones de una empresa","C. La inspección física de inventarios almacenados","D. La evaluación exclusiva de los sistemas informáticos"],c:1,exp:"La Auditoría Integral implica una minuciosa y amplia evaluación que un equipo de profesionales multidisciplinarios realiza en relación con todas las actividades y operaciones de una empresa."},
+  {s:"s2",t:"Sesión 2",q:"¿Cuándo se solicita una Auditoría Externa?",opts:["A. Solo cuando la empresa tiene pérdidas financieras","B. Cuando hay indicios de riesgos en seguridad, preocupaciones sobre eficiencia de los SI u obligaciones legales","C. Cuando el personal interno no tiene tiempo para auditar","D. Exclusivamente cuando lo piden los accionistas"],c:1,exp:"La auditoría externa se solicita cuando se identifican indicios de riesgos en seguridad, preocupaciones sobre eficiencia y eficacia de los sistemas de información, o cuando existen obligaciones legales que lo demandan."},
+  {s:"s2",t:"Sesión 2",q:"¿Cuál es una ventaja de la Auditoría Interna frente a la Externa?",opts:["A. Mayor independencia del auditor","B. Conocimiento integral de las actividades, funciones y procesos de la empresa, informe interno confidencial y sin costo adicional","C. Mayor credibilidad ante terceros y organismos reguladores","D. Opiniones que cumplen con exigencias legales externas"],c:1,exp:"Las ventajas de la auditoría interna son: anticipar problemas, informe interno y confidencial, no tiene costo adicional, y conocimiento integral de las actividades, funciones y procesos de la empresa."},
+  {s:"s2",t:"Sesión 2",q:"¿Cuál es una desventaja de la Auditoría Interna?",opts:["A. Genera costos adicionales elevados","B. La opinión del auditor puede carecer de total imparcialidad y existe riesgo de encubrimiento","C. El auditor externo no conoce la empresa","D. Sus resultados no son válidos legalmente"],c:1,exp:"Las desventajas de la auditoría interna incluyen: la opinión puede carecer de imparcialidad al trabajar dentro de la misma empresa, riesgo de encubrimiento, uso de técnicas similares y veracidad, alcance y confiabilidad limitada."},
+  {s:"s2",t:"Sesión 2",q:"La Auditoría Outsourcing se define como:",opts:["A. Una auditoría realizada por organismos gubernamentales","B. Un análisis especializado que busca evaluar la calidad del procesamiento de información que una empresa provee a otra","C. La revisión de inventarios físicos de una empresa","D. Una auditoría medioambiental de emisiones contaminantes"],c:1,exp:"La Auditoría Outsourcing implica una revisión minuciosa y sistemática que busca evaluar la calidad del procesamiento de información que una empresa provee a otra."},
+  {s:"s3",t:"Sesión 3",q:"Según Piattini, Del Peso y Del Peso (2008), ¿qué determina la auditoría informática?",opts:["A. Si el personal está bien remunerado","B. Si un sistema informático protege activos, preserva integridad de datos, cumple objetivos y utiliza recursos eficientemente","C. El valor de mercado de los activos tecnológicos","D. La rentabilidad de las inversiones en TI"],c:1,exp:"Piattini, Del Peso y Del Peso (2008) definen la auditoría informática como el proceso de recopilar, clasificar y evaluar pruebas para determinar si un sistema protege los activos, preserva la integridad de datos, cumple los objetivos y utiliza los recursos de manera eficiente."},
+  {s:"s3",t:"Sesión 3",q:"¿Cuál de las siguientes es una responsabilidad del Auditor de Sistemas según la Sesión 3?",opts:["A. Preparar informes financieros de la empresa","B. Verificar y evaluar el control interno de aplicaciones y sistemas informáticos, incluyendo periféricos","C. Contratar al personal de TI","D. Definir la estrategia comercial de la empresa"],c:1,exp:"Las responsabilidades del Auditor de Sistemas incluyen verificar y evaluar el control interno de aplicaciones y sistemas informáticos, identificar vulnerabilidades, analizar integridad de información, gestionar riesgos y preparar informes detallados."},
+  {s:"s3",t:"Sesión 3",q:"¿Cuál es la responsabilidad del Cliente en una auditoría?",opts:["A. Ejecutar las pruebas de auditoría junto al equipo auditor","B. Iniciar el procedimiento, definir el alcance, establecer quién audita, recibir el informe y determinar medidas a tomar","C. Preparar los papeles de trabajo de auditoría","D. Comunicar las no conformidades al auditado"],c:1,exp:"El Cliente tiene la responsabilidad de iniciar y ejecutar el procedimiento, definir el alcance, establecer quién será responsable de la auditoría, ser el receptor del informe definitivo y determinar las medidas a tomar comunicándoselas al auditado."},
+  {s:"s3",t:"Sesión 3",q:"¿Qué responsabilidad tiene el Auditado?",opts:["A. Definir el alcance de la auditoría y contratar a los auditores","B. Brindar toda la colaboración, poner medios a disposición e implementar medidas correctivas derivadas del informe","C. Preparar y presentar el informe final de auditoría","D. Comunicar las no conformidades principales al equipo auditor"],c:1,exp:"El Auditado debe brindar toda la colaboración a los auditores, informar a los miembros clave de la organización, poner a disposición los medios necesarios, colaborar con el equipo y implementar las medidas correctivas del informe."},
+  {s:"s3",t:"Sesión 3",q:"¿Cuál es la responsabilidad principal del Auditor Jefe?",opts:["A. Solo redactar el informe final","B. Ser responsable final de todas las fases, preparar el plan, comunicar no conformidades, realizar seguimiento y dirigir el informe","C. Ejecutar las pruebas técnicas de auditoría","D. Contratar al equipo auditor externo"],c:1,exp:"El Auditor Jefe es responsable final de todas las fases de la auditoría, debe preparar el plan, participar en la selección del equipo, comunicar no conformidades, realizar seguimiento de medidas correctivas y dirigir la supervisión del informe."},
+  {s:"s3",t:"Sesión 3",q:"¿Qué deben hacer los Auditores (equipo) según sus responsabilidades?",opts:["A. Definir el alcance y contratar al equipo","B. Preparar informe de hallazgos, colaborar con el equipo y el Auditor Jefe, actuar con imparcialidad y cumplir requisitos","C. Ser los receptores del informe definitivo","D. Implementar las medidas correctivas surgidas de la auditoría"],c:1,exp:"Las responsabilidades de los auditores incluyen: preparar el informe de hallazgos, registrar observaciones, colaborar con el equipo y el Auditor Jefe, actuar de manera imparcial y objetiva, cumplir los requisitos y comunicar al auditado los criterios de auditoría."},
+  {s:"s3",t:"Sesión 3",q:"¿Qué responsabilidad específica del Auditor de Sistemas se relaciona con la continuidad operativa?",opts:["A. Preparar los estados financieros","B. Verificar el nivel de continuidad del negocio","C. Gestionar el presupuesto de TI","D. Diseñar la arquitectura de sistemas"],c:1,exp:"Una de las responsabilidades explícitas del Auditor de Sistemas es verificar el nivel de continuidad del negocio, lo que implica evaluar si la organización puede mantener sus operaciones ante eventos adversos."},
+  {s:"s4",t:"Sesión 4",q:"¿Cómo se define la Ética según la Sesión 4?",opts:["A. El sistema de valores que una sociedad considera correcto o incorrecto","B. Una rama de la filosofía que se centra en comprender y analizar los principios morales que guían nuestras acciones","C. Un conjunto de normas vinculantes para profesionales específicos","D. Las leyes y reglamentos que regulan una profesión"],c:1,exp:"La Ética es una rama de la filosofía que se centra en comprender y analizar los principios morales que guían nuestras acciones, ayudándonos a discernir lo correcto de lo incorrecto en cuestiones de moralidad."},
+  {s:"s4",t:"Sesión 4",q:"¿Cuál es la diferencia entre Ética y Moral según la Sesión 4?",opts:["A. Son exactamente lo mismo","B. La ética es filosófica, universal y reflexiva; la moral es cultural, contextual y práctica","C. La moral es más objetiva que la ética","D. La ética solo aplica en el trabajo y la moral en la vida personal"],c:1,exp:"La Ética es rama de la filosofía, universal, filosófica y reflexiva. La Moral es cultural y social, con juicio y responsabilidad personal, contextual y práctica. Aunque relacionadas, representan perspectivas distintas."},
+  {s:"s4",t:"Sesión 4",q:"¿Qué es la Deontología?",opts:["A. Un tipo de auditoría especializada en sistemas","B. Una rama de la ética que se ocupa del estudio de los deberes, obligaciones y normas morales que guían la conducta humana","C. El estudio de los estados financieros de una empresa","D. Un conjunto de habilidades técnicas para auditores"],c:1,exp:"La Deontología es una rama de la ética que se centra en el estudio de los deberes y obligaciones morales que guían el comportamiento. Etimológicamente deriva del griego 'déon' (deber) y 'logía' (estudio de)."},
+  {s:"s4",t:"Sesión 4",q:"¿Qué es la Deontología Profesional?",opts:["A. El estudio de la filosofía moral en general","B. Un conjunto de principios y reglas éticas que establecen normas y responsabilidades mínimas para los profesionales en su ejercicio","C. La evaluación del desempeño financiero de los profesionales","D. Las leyes laborales que protegen a los trabajadores"],c:1,exp:"La Deontología Profesional es un conjunto de principios y reglas éticas que establecen las normas y responsabilidades mínimas que los profesionales deben cumplir en el ejercicio de su profesión, asegurando una práctica ética y responsable."},
+  {s:"s4",t:"Sesión 4",q:"¿Qué es un Código Deontológico?",opts:["A. Un manual de procedimientos técnicos de auditoría","B. Normas éticas que guían la conducta profesional, con fuerza vinculante y mecanismos sancionadores, aprobado por colegios profesionales","C. Un contrato entre el auditor y el cliente","D. Una lista de herramientas de auditoría aprobadas"],c:1,exp:"El Código Deontológico son normas éticas que guían la conducta de los profesionales, establecen estándares a seguir, tienen fuerza vinculante con mecanismos sancionadores y son aprobados por los miembros de los colegios profesionales en consenso."},
+  {s:"s4",t:"Sesión 4",q:"¿Cuál es la principal diferencia entre Ética Profesional y Deontología Profesional?",opts:["A. Son sinónimos exactos y se usan indistintamente en todos los contextos","B. La ética profesional estudia los contenidos normativos del colectivo (más flexible, aplica fuera del trabajo); la deontología es el conjunto de normas vinculantes específicas (menos flexible, se ubica entre la moral y el derecho)","C. La deontología es más flexible que la ética profesional","D. La ética profesional tiene fuerza legal vinculante y la deontología no"],c:1,exp:"La ética profesional es la disciplina que estudia los contenidos normativos, es más flexible y puede aplicarse fuera del ámbito laboral. La deontología profesional es el conjunto de normas vinculantes, es específica, menos flexible y se ubica entre la moral y el derecho."},
+  {s:"s4",t:"Sesión 4",q:"¿Qué es un Dilema Ético?",opts:["A. Una situación ilegal que enfrenta el auditor","B. Una situación en la que se debe tomar una decisión difícil entre dos opciones, ambas con implicaciones morales","C. Un conflicto entre dos empresas auditadas","D. Una discrepancia en los estados financieros"],c:1,exp:"Un dilema ético es una situación en la que se debe tomar una decisión difícil entre dos opciones, ambas con implicaciones morales. Ejemplos del curso incluyen: ayudar a un amigo a hacer trampa, quedarse con dinero encontrado, etc."},
+  {s:"s4",t:"Sesión 4",q:"El Utilitarismo, como concepto relacionado con la ética, sostiene que:",opts:["A. Las acciones son correctas si benefician únicamente al individuo que las realiza","B. Una acción es éticamente correcta si resulta en el mayor bienestar para la mayoría","C. Solo las acciones legales son éticas","D. El dinero es la medida de toda acción ética"],c:1,exp:"El Utilitarismo es la teoría ética que considera que una acción es éticamente correcta si resulta en el mayor bienestar para la mayoría, basándose en la utilidad o el beneficio neto."},
+  {s:"s5",t:"Sesión 5",q:"¿Qué establece el Principio de Beneficio del Auditado?",opts:["A. Que el auditor debe maximizar sus propios ingresos","B. Que el auditor debe actuar en beneficio de los intereses del cliente, velando por sus mejores intereses y protegiendo sus activos","C. Que el auditado debe beneficiarse económicamente de la auditoría","D. Que los honorarios del auditor deben ser los más bajos posibles"],c:1,exp:"El Principio de Beneficio del Auditado establece que el auditor debe actuar en beneficio de los intereses del cliente, cumpliendo sus responsabilidades de manera ética y profesional, y buscando proteger los activos y la integridad de la organización auditada."},
+  {s:"s5",t:"Sesión 5",q:"¿Qué implica el Principio de Cautela para el auditor?",opts:["A. Ser extremadamente lento en la entrega de informes","B. Basar recomendaciones en experiencia contrastada, evitar predicciones excesivamente seguras y actuar con humildad","C. Nunca dar recomendaciones al auditado","D. Evitar el uso de tecnología en la auditoría"],c:1,exp:"El Principio de Cautela implica que el auditor debe basar sus recomendaciones en experiencia contrastada, evitar predicciones excesivamente seguras sobre futuros tecnológicos, actuar con humildad y considerar las dudas que surgen durante la auditoría."},
+  {s:"s5",t:"Sesión 5",q:"¿Qué establece el Principio de Criterio Propio?",opts:["A. Que el auditor debe seguir siempre las instrucciones del cliente","B. Que el auditor debe mantener su criterio independiente incluso ante la oposición de otros profesionales y negarse si sospecha uso indebido de la auditoría","C. Que el auditor debe aceptar cualquier método recomendado por terceros","D. Que el auditor nunca debe cuestionar las decisiones del auditado"],c:1,exp:"El Principio de Criterio Propio establece que el auditor debe mantener su criterio independiente ante la oposición de otros profesionales, reflejar discrepancias, sostener su posición si está respaldada y negarse si sospecha que la auditoría se usa para fines distintos."},
+  {s:"s5",t:"Sesión 5",q:"¿Qué prohíbe el Principio de Legalidad?",opts:["A. El uso de software de auditoría","B. El uso indebido de conocimientos y colaborar en violaciones de la legalidad, como desactivar medidas de seguridad o acceder a información restringida","C. Trabajar con clientes del sector público","D. Revelar información del informe al directorio"],c:1,exp:"El Principio de Legalidad establece que el auditor debe evitar el uso indebido de sus conocimientos, no colaborar en violaciones legales como desactivar medidas de seguridad o acceder a información restringida, y oponerse a cualquier intento de infracción."},
+  {s:"s5",t:"Sesión 5",q:"¿Cuándo puede el auditor divulgar información protegida por el Principio de Secreto Profesional?",opts:["A. Cuando el cliente se lo solicite verbalmente","B. Solo cuando la ley lo requiera, ya que el secreto profesional es una obligación de mantener en secreto la información obtenida","C. Cuando otro auditor lo pida","D. Cuando la información sea de carácter técnico y no financiero"],c:1,exp:"El Principio de Secreto Profesional impone la obligación de mantener en secreto la información obtenida durante la auditoría, a menos que la ley lo requiera. Cualquier violación conlleva responsabilidad y se extiende a las personas que colaboran en la auditoría."},
+  {s:"s5",t:"Sesión 5",q:"¿Qué implica el Principio de No Discriminación para el auditor?",opts:["A. Que puede seleccionar a sus clientes basándose en su capacidad de pago","B. Que debe llevar a cabo su labor sin discriminación ni prejuicios, manteniendo igualdad de trato sin importar características personales, sociales o económicas","C. Que solo puede auditar empresas del mismo sector","D. Que debe dar trato preferencial a clientes frecuentes"],c:1,exp:"El Principio de No Discriminación establece que el auditor debe llevar a cabo su labor sin discriminación y sin prejuicios de ningún tipo, manteniendo igualdad de trato en todas sus interacciones profesionales, sin importar características personales, sociales o económicas."},
+  {s:"s5",t:"Sesión 5",q:"¿Qué establece el Principio de Libre Competencia?",opts:["A. Que el auditor puede cobrar cualquier precio por sus servicios","B. Que el auditor debe actuar evitando prácticas colusorias y abusivas que restrinjan la competencia y perjudiquen a los auditados","C. Que el auditor puede usar información de la auditoría para competir con sus clientes","D. Que el auditor no debe competir con otros auditores"],c:1,exp:"El Principio de Libre Competencia establece que el auditor debe actuar en un entorno de libre competencia, evitando prácticas colusorias y abusivas, manteniendo una conducta honesta y evitando comportamientos desleales en la comercialización de servicios."},
+  {s:"s5",t:"Sesión 5",q:"¿Qué son las Normas Profesionales del Auditor según la Sesión 5?",opts:["A. Las leyes tributarias que debe conocer el auditor","B. Principios que incluyen objetividad, compromiso, responsabilidad, integridad, honestidad, confidencialidad, equilibrio e institucionalidad","C. Los requisitos de titulación universitaria para ejercer","D. Los aranceles profesionales establecidos por los colegios"],c:1,exp:"Las Normas Profesionales del Auditor incluyen: Objetividad, Compromiso, Responsabilidad, Integridad, Honestidad, Confidencialidad, Equilibrio e Institucionalidad."},
+  {s:"s5",t:"Sesión 5",q:"¿Qué implica el Principio de Fortalecimiento y Respeto a la Profesión?",opts:["A. Cobrar los honorarios más altos del mercado","B. Exigir respeto, reconocimiento y remuneración justa, evitar competencia desleal, promover colaboración y denunciar comportamientos indebidos","C. Trabajar exclusivamente para grandes empresas","D. No compartir conocimientos con otros auditores"],c:1,exp:"El Principio de Fortalecimiento y Respeto a la Profesión implica defender la profesión exigiendo respeto, reconocimiento y remuneración justa, evitar competencia desleal, promover colaboración y respeto mutuo entre colegas, y denunciar comportamientos indebidos para elevar el prestigio."},
+  {s:"lect",t:"Lecturas",q:"Según la lectura 'Etapas de la Auditoría', ¿cuál es el propósito de la etapa de Exploración?",opts:["A. Emitir el informe final de auditoría","B. Realizar el estudio previo al inicio de la auditoría para conocer la entidad y obtener elementos para un adecuado planeamiento","C. Ejecutar las pruebas técnicas de los sistemas","D. Presentar los hallazgos al directorio"],c:1,exp:"La Exploración es la etapa donde se realiza el estudio o examen previo al inicio de la auditoría para conocer en detalle las características de la entidad, obteniendo elementos necesarios para el planeamiento y definiendo la importancia de las materias a examinar."},
+  {s:"lect",t:"Lecturas",q:"En la etapa de Planeamiento de la auditoría, ¿qué debe contener como mínimo el plan global?",opts:["A. Solo el nombre del auditor jefe","B. Definición de temas y tareas, nombre de especialistas, y fecha prevista de inicio y terminación de cada tarea","C. Los estados financieros del período anterior","D. La lista de software a instalar durante la auditoría"],c:1,exp:"El plan global o general de la auditoría debe contener como mínimo: definición de los temas y las tareas a ejecutar, nombre del o los especialistas que intervendrán, y fecha prevista de inicio y terminación de cada tarea."},
+  {s:"lect",t:"Lecturas",q:"¿Cuál es el propósito esencial de la etapa de Supervisión en la auditoría?",opts:["A. Reducir costos del proceso de auditoría","B. Asegurar el cumplimiento de los objetivos de la auditoría y la calidad razonable del trabajo en todas las etapas","C. Contratar a los auditores externos","D. Aprobar el presupuesto del proceso de auditoría"],c:1,exp:"El propósito esencial de la Supervisión es asegurar el cumplimiento de los objetivos de la auditoría y la calidad razonable del trabajo. Es necesaria en todos los casos y en todas las etapas, desde la exploración hasta la emisión del informe."},
+  {s:"lect",t:"Lecturas",q:"Según la lectura sobre Técnicas e Instrumentos, ¿qué es la Matriz de Evaluación en auditoría?",opts:["A. Un informe financiero resumido","B. Documento para recopilar información sobre actividades del área informática, con escala de valoración de 1 (baja) a 5 (excelente)","C. Un contrato entre auditor y auditado","D. Una lista de verificación de hardware"],c:1,exp:"La Matriz de Evaluación es uno de los documentos de mayor utilidad para recopilar información relacionada con actividades del área informática. La escala va desde 1 (baja, deficiente) hasta 5 (superior, muy bueno, excelente) con criterios descriptivos."},
+  {s:"lect",t:"Lecturas",q:"Según la lectura de Ramírez y Álvarez, ¿cuáles son los dos aspectos básicos considerados en la metodología de auditoría informática para entidades públicas?",opts:["A. Evaluación financiera y análisis de personal","B. Identificación de áreas de riesgo e identificación de áreas de control","C. Revisión de hardware y revisión de software","D. Auditoría interna y auditoría externa"],c:1,exp:"Según Ramírez y Álvarez, la metodología de auditoría informática para medir riesgos y evaluar controles considera dos aspectos básicos: la identificación de áreas de riesgo y la identificación de áreas de control."}
+];
+
+let filtered = [...ALL_QUESTIONS];
+let current = 0;
+let score = 0;
+let answered = false;
+let userAnswers = [];
+let view = 'setup';
+let activeFilter = 'all';
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function render() {
+  const app = document.getElementById('app');
+  if (view === 'setup') renderSetup(app);
+  else if (view === 'quiz') renderQuiz(app);
+  else if (view === 'result') renderResult(app);
+}
+
+function renderSetup(app) {
+  const total = ALL_QUESTIONS.length;
+  const byS = {s1:0,s2:0,s3:0,s4:0,s5:0,lect:0};
+  ALL_QUESTIONS.forEach(q => byS[q.s]++);
+  app.innerHTML = `
+    <div class="setup-card">
+      <div class="badge" style="margin-bottom:0.75rem">Deontología del Auditor Informático — UTP</div>
+      <h3>Quiz completo — elaborado por docente</h3>
+      <p>Preguntas creadas a partir del contenido real de tus 9 PDFs. Selecciona un tema o practica todas las sesiones.</p>
+      <div class="stat-grid">
+        <div class="stat-item"><div class="stat-num">${total}</div><div class="stat-lbl">Preguntas totales</div></div>
+        <div class="stat-item"><div class="stat-num">5</div><div class="stat-lbl">Sesiones cubiertas</div></div>
+        <div class="stat-item"><div class="stat-num">9</div><div class="stat-lbl">PDFs analizados</div></div>
+      </div>
+      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:0.75rem">Filtrar por tema:</p>
+      <div class="filter-row">
+        <button class="filter-btn ${activeFilter==='all'?'active':''}" onclick="setFilter('all')">Todas (${total})</button>
+        <button class="filter-btn ${activeFilter==='s1'?'active':''}" onclick="setFilter('s1')">Sesión 1 (${byS.s1})</button>
+        <button class="filter-btn ${activeFilter==='s2'?'active':''}" onclick="setFilter('s2')">Sesión 2 (${byS.s2})</button>
+        <button class="filter-btn ${activeFilter==='s3'?'active':''}" onclick="setFilter('s3')">Sesión 3 (${byS.s3})</button>
+        <button class="filter-btn ${activeFilter==='s4'?'active':''}" onclick="setFilter('s4')">Sesión 4 (${byS.s4})</button>
+        <button class="filter-btn ${activeFilter==='s5'?'active':''}" onclick="setFilter('s5')">Sesión 5 (${byS.s5})</button>
+        <button class="filter-btn ${activeFilter==='lect'?'active':''}" onclick="setFilter('lect')">Lecturas (${byS.lect})</button>
+      </div>
+      <div style="margin-top:1.25rem;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn primary" onclick="startQuiz(false)">Iniciar quiz (${filtered.length} preguntas) ↗</button>
+        <button class="btn" onclick="startQuiz(true)">Orden aleatorio ↗</button>
+      </div>
+    </div>`;
+}
+
+function setFilter(f) {
+  activeFilter = f;
+  filtered = f === 'all' ? [...ALL_QUESTIONS] : ALL_QUESTIONS.filter(q => q.s === f);
+  render();
+}
+
+function startQuiz(randomize) {
+  filtered = activeFilter === 'all' ? [...ALL_QUESTIONS] : ALL_QUESTIONS.filter(q => q.s === activeFilter);
+  if (randomize) shuffle(filtered);
+  current = 0; score = 0; answered = false; userAnswers = [];
+  view = 'quiz';
+  render();
+}
+
+function renderQuiz(app) {
+  const q = filtered[current];
+  const pct = Math.round((current / filtered.length) * 100);
+  const bclass = q.s;
+  let optsHTML = q.opts.map((o, i) => {
+    let cls = 'opt';
+    if (answered) {
+      if (i === q.c) cls += ' show-correct';
+      else if (userAnswers[current] === i) cls += ' wrong';
+    }
+    return `<button class="${cls}" ${answered?'disabled':''} onclick="selectAnswer(${i})">${o}</button>`;
+  }).join('');
+
+  const fbStyle = answered ? 'display:block' : 'display:none';
+  const isLast = current === filtered.length - 1;
+  const nextLabel = isLast ? 'Ver resultados →' : 'Siguiente →';
+
+  app.innerHTML = `
+    <div class="prog-wrap">
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+      <div class="prog-label">${current+1} de ${filtered.length} preguntas</div>
+    </div>
+    <div class="badge ${bclass}">${q.t}</div>
+    <div class="q-text" style="margin-top:8px">${q.q}</div>
+    <div id="opts">${optsHTML}</div>
+    <div class="feedback" id="fb" style="${fbStyle}">${answered ? ((userAnswers[current]===q.c?'✓ Correcto. ':'✗ Incorrecto. ')+q.exp) : ''}</div>
+    <div class="nav-row">
+      ${answered ? `<button class="btn primary" onclick="nextQ()">${nextLabel}</button>` : ''}
+      ${current > 0 ? `<button class="btn" onclick="prevQ()">← Anterior</button>` : ''}
+    </div>`;
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  userAnswers[current] = idx;
+  if (idx === filtered[current].c) score++;
+  render();
+}
+
+function nextQ() {
+  if (current < filtered.length - 1) {
+    current++;
+    answered = userAnswers[current] !== undefined;
+    render();
+  } else {
+    view = 'result';
+    render();
+  }
+}
+
+function prevQ() {
+  if (current > 0) {
+    current--;
+    answered = userAnswers[current] !== undefined;
+    render();
+  }
+}
+
+function renderResult(app) {
+  const total = filtered.length;
+  const pct = Math.round((score / total) * 100);
+  let msg = '', msgColor = '';
+  if (pct >= 90) { msg = '¡Excelente dominio del curso!'; msgColor = '#27500A'; }
+  else if (pct >= 75) { msg = 'Muy bien. Repasa los temas en que fallaste.'; msgColor = '#534AB7'; }
+  else if (pct >= 60) { msg = 'Aprobado, pero hay temas por reforzar.'; msgColor = '#633806'; }
+  else { msg = 'Necesitas repasar los materiales con más detalle.'; msgColor = '#A32D2D'; }
+
+  const wrongItems = filtered.map((q,i) => ({q, ua: userAnswers[i], i})).filter(x => x.ua !== x.q.c);
+
+  const breakdown = {};
+  filtered.forEach((q,i) => {
+    if (!breakdown[q.s]) breakdown[q.s] = {t:q.t, total:0, ok:0};
+    breakdown[q.s].total++;
+    if (userAnswers[i] === q.c) breakdown[q.s].ok++;
+  });
+
+  const bkHTML = Object.values(breakdown).map(b =>
+    `<div class="bk-card"><div class="bk-title">${b.t}</div><div class="bk-val">${b.ok}/${b.total}</div></div>`
+  ).join('');
+
+  const wrongHTML = wrongItems.length === 0 ? '<p style="color:var(--color-text-secondary);font-size:13px">¡Sin errores! Perfecto.</p>' :
+    wrongItems.map(x => `
+      <div class="review-item fail">
+        <div class="review-q">${x.q.q}</div>
+        <div class="review-ans">Tu respuesta: ${x.q.opts[x.ua] ?? '(sin responder)'}<br>Correcta: ${x.q.opts[x.q.c]}</div>
+      </div>`).join('');
+
+  app.innerHTML = `
+    <div class="score-wrap">
+      <div class="score-big">${score}/${total}</div>
+      <div class="score-sub">${pct}% de aciertos</div>
+      <p style="font-size:14px;color:${msgColor};margin-top:1rem;font-weight:500">${msg}</p>
+      <div class="breakdown">${bkHTML}</div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn primary" onclick="restartSame()">Repetir quiz</button>
+        <button class="btn" onclick="goSetup()">Cambiar tema</button>
+      </div>
+    </div>
+    ${wrongItems.length > 0 ? `<div style="margin-top:1.5rem"><p style="font-size:13px;font-weight:500;margin-bottom:0.75rem">Preguntas incorrectas para repasar:</p>${wrongHTML}</div>` : ''}`;
+}
+
+function restartSame() {
+  current = 0; score = 0; answered = false; userAnswers = [];
+  view = 'quiz'; render();
+}
+function goSetup() { view = 'setup'; render(); }
+
+render();
+</script>
